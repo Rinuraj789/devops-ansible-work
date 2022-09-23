@@ -2,12 +2,19 @@
 - name: "installing apache webserver"
   hosts: amazon
   become: true
+  vars_files:
+    - variable.yml
   tasks:
 
     - name: "installing apache webserver"
       yum:
         name: httpd
         state: present
+
+    - name: "creating httpd.conf fron httpd.conf.tmpl"
+      template:
+        src: httpd.conf.tmpl
+        dest: /etc/httpd/conf/httpd.conf
 
     - name: "reinstalling and enableing service"
       service:
